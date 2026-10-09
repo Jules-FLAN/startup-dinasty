@@ -12,7 +12,7 @@ from pydantic import BaseModel, ValidationError
 
 from invoices import Alert, Invoice
 
-DEFAULT_MODEL = "claude-opus-5-5"
+DEFAULT_MODEL = "claude-haiku-5-5"
 MAX_ALERTS_PER_CALL = 20
 
 SYSTEM = (
