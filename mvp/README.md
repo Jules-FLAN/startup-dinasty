@@ -63,7 +63,7 @@ The tests cover amount parsing, field extraction, duplicate rules, missing and i
 
 One analysis of the 5 samples sends about 1,000–2,000 input tokens and receives about 500–1,500 output tokens.
 
-- With `claude-haiku-5-5` (default, $0.10 / $0.50 per million tokens): under $0.001 per analysis.
+- With `claude-haiku-4-5` (default, $1 / $5 per million tokens): about $0.004–0.01 per analysis.
 - With `claude-opus-5-5` (set `DINASTY_MODEL`, $4 / $20): about $0.01–0.04 per analysis.
 
 ## Data handling

@@ -12,7 +12,7 @@ from pydantic import BaseModel, ValidationError
 
 from invoices import Alert, Invoice
 
-DEFAULT_MODEL = "claude-haiku-5-5"
+DEFAULT_MODEL = "claude-haiku-4-5"
 MAX_ALERTS_PER_CALL = 20
 
 SYSTEM = (
@@ -68,11 +68,14 @@ def claude_explanations(invoices: list[Invoice], alerts: list[Alert]) -> list[Ex
         raise ExplainError("ANTHROPIC_API_KEY is not set. Use demo mode or add the key to .env.")
     alerts = alerts[:MAX_ALERTS_PER_CALL]  # cost cap: one call, bounded input
     client = anthropic.Anthropic(max_retries=2, timeout=60)
+    model = os.environ.get("DINASTY_MODEL") or DEFAULT_MODEL
+    # Haiku 4.5 rejects the effort parameter; newer models accept it.
+    extra = {} if model.startswith("claude-haiku-4") else {"output_config": {"effort": "low"}}
     try:
         response = client.messages.parse(
-            model=os.environ.get("DINASTY_MODEL", DEFAULT_MODEL),
+            model=model,
             max_tokens=2000,
-            output_config={"effort": "low"},
+            **extra,
             system=SYSTEM,
             messages=[{"role": "user", "content": _payload(invoices, alerts)}],
             output_format=Report,
