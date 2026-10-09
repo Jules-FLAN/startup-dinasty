@@ -29,7 +29,7 @@ Early prototype that flags supplier invoice problems before payment. It runs loc
 - Claude receives the extracted fields and the alerts. It **does not** receive the raw invoice text.
 - Claude cannot pay, contact suppliers or change data. The app has no such function.
 - Claude mode requires an explicit consent checkbox before anything is sent.
-- One API call per analysis, at most 20 alerts, `max_tokens=2000`, effort `low`.
+- One API call per analysis, at most 20 alerts, `max_tokens=2000`.
 
 ## Install
 
@@ -59,12 +59,11 @@ python -m pytest -q
 
 The tests cover amount parsing, field extraction, duplicate rules, missing and inconsistent fields, file rejection, and an end-to-end run on the samples.
 
-## Cost estimate (assumptions, not measured)
+## Cost
 
-One analysis of the 5 samples sends about 1,000–2,000 input tokens and receives about 500–1,500 output tokens.
+Measured on one analysis of the 5 samples with `claude-haiku-4-5` (default): 889 input tokens, 394 output tokens, about $0.003 at $1 / $5 per million tokens.
 
-- With `claude-haiku-4-5` (default, $1 / $5 per million tokens): about $0.004–0.01 per analysis.
-- With `claude-opus-5-5` (set `DINASTY_MODEL`, $4 / $20): about $0.01–0.04 per analysis.
+Set `DINASTY_MODEL` to use another model, for example `claude-opus-5-5` for stronger reasoning at a higher price.
 
 ## Data handling
 
